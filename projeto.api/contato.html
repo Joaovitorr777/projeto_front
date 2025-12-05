@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Contato</title>
+<style>
+body { font-family: Arial; padding: 20px; }
+input, textarea { width: 300px; padding: 5px; margin-bottom: 10px; }
+textarea { height: 100px; }
+button { padding: 5px 10px; }
+label { font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h2>Formulário de Contato</h2>
+
+<form id="formContato">
+<label>Nome:</label><br>
+<input type="text" id="nome" required><br>
+<label>Email:</label><br>
+<input type="email" id="email" required><br>
+<label>Mensagem:</label><br>
+<textarea id="mensagem" required></textarea><br>
+<button type="submit">Enviar Mensagem</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+$("#formContato").on("submit", function(e){
+    e.preventDefault();
+
+    var mensagem = {
+        nome: $("#nome").val(),
+        email: $("#email").val(),
+        mensagem: $("#mensagem").val(),
+        visualizada: false
+    };
+
+    var lista = JSON.parse(localStorage.getItem("mensagens") || "[]");
+    lista.push(mensagem);
+    localStorage.setItem("mensagens", JSON.stringify(lista));
+
+    alert("Mensagem enviada!");
+    $("#formContato")[0].reset();
+});
+</script>
+
+</body>
+</html>

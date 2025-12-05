@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Mensagens Recebidas</title>
+<style>
+body { font-family: Arial; padding: 20px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { border: 1px solid #000; padding: 5px; }
+.nao-lida td { font-weight: bold; }
+button { padding: 3px 6px; margin-right: 3px; }
+</style>
+</head>
+<body>
+
+<h2>Mensagens Recebidas</h2>
+
+<table>
+<thead>
+<tr>
+<th>Nome</th>
+<th>Email</th>
+<th>Mensagem</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="listaMensagens"></tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+function obterMensagens() {
+    return JSON.parse(localStorage.getItem("mensagens") || "[]");
+}
+
+function salvarMensagens(lista) {
+    localStorage.setItem("mensagens", JSON.stringify(lista));
+}
+
+function carregarMensagens() {
+    var mensagens = obterMensagens();
+    $("#listaMensagens").empty();
+    mensagens.forEach((msg, index) => {
+        var classe = msg.visualizada ? "" : "nao-lida";
+        var linha = `
+<tr class="${classe}">
+<td>${msg.nome}</td>
+<td>${msg.email}</td>
+<td>${msg.mensagem}</td>
+<td>
+<button onclick="visualizar(${index})">Mensagem Visualizada</button>
+<button onclick="excluir(${index})">Excluir Mensagem</button>
+</td>
+</tr>`;
+        $("#listaMensagens").append(linha);
+    });
+}
+
+function visualizar(i) {
+    if(!confirm("Marcar mensagem como visualizada?")) return;
+    var mensagens = obterMensagens();
+    mensagens[i].visualizada = true;
+    salvarMensagens(mensagens);
+    carregarMensagens();
+}
+
+function excluir(i) {
+    if(!confirm("Deseja realmente excluir esta mensagem?")) return;
+    var mensagens = obterMensagens();
+    mensagens.splice(i, 1);
+    salvarMensagens(mensagens);
+    carregarMensagens();
+}
+
+carregarMensagens();
+</script>
+
+</body>
+</html>

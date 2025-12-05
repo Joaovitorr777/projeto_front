@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Admin Login</title>
+<style>
+body { font-family: Arial; padding: 20px; }
+input { width: 300px; padding: 5px; margin-bottom: 10px; }
+button { padding: 5px 10px; }
+label { font-weight: bold; }
+#erro { color: red; display: none; }
+</style>
+</head>
+<body>
+
+<h2>Área Administrativa</h2>
+
+<form id="formLogin">
+<label>Email:</label><br>
+<input type="email" id="email" required><br>
+<label>Senha:</label><br>
+<input type="password" id="senha" required><br>
+<button type="submit">Entrar</button>
+</form>
+
+<p id="erro">E-mail e Senha inválidos</p>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+$("#formLogin").on("submit", function(e){
+    e.preventDefault();
+    var email = $("#email").val();
+    var senha = $("#senha").val();
+
+    if(email === "admin@admin.com" && senha === "1234") {
+        window.location.href = "mensagens.html";
+    } else {
+        $("#erro").show();
+    }
+});
+</script>
+
+</body>
+</html>
